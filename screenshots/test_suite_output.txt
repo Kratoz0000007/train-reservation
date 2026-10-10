@@ -1,0 +1,94 @@
+========================================================================
+TRAIN RESERVATION MANAGEMENT SYSTEM - AUTOMATED VERIFICATION TEST LOG
+========================================================================
+
+TEST 1: INITIAL TRAIN DIRECTORY (DISPLAY ALL TRAINS)
+----------------------------------------------------------------------------------------
+TRAIN NO.  TRAIN NAME             SOURCE       DESTINATION    TOTAL    AVAILABLE  FARE(Rs)
+----------------------------------------------------------------------------------------
+101        Chennai Express        Chennai      Bangalore      50       50         450.00  
+102        Coastal Express        Chennai      Coimbatore     40       40         350.00  
+103        Intercity Express      Chennai      Madurai        60       60         400.00  
+104        Southern Express       Chennai      Trichy         50       50         300.00  
+105        City Express           Chennai      Salem          3        3          250.00  
+----------------------------------------------------------------------------------------
+
+TEST 2: BOOKING UNTIL CAPACITY (TRAIN 105 - TOTAL 3 SEATS)
+Booking Passenger 1: Rahul Sharma, Age 21, Male
+-> PNR: 1001, Seat: 1, Status: CONFIRMED
+Booking Passenger 2: Priya Patel, Age 20, Female
+-> PNR: 1002, Seat: 2, Status: CONFIRMED
+Booking Passenger 3: Amit Verma, Age 22, Male
+-> PNR: 1003, Seat: 3, Status: CONFIRMED
+
+TEST 3: WAITING LIST TRIGGER (TRAIN 105 IS FULL)
+Booking Passenger 4: Ananya Iyer, Age 19, Female
+-> Available Seats = 0
+-> Enqueued to Waiting Queue (FIFO)
+-> PNR: 1004, Seat: Waiting, Status: WAITING, Waiting Position: 1
+
+TEST 4: SEARCH RESERVATION BY PNR (PNR: 1004)
+========================================================
+                  RESERVATION DETAILS                   
+========================================================
+PNR Number    : 1004
+Passenger     : Ananya Iyer
+Age / Gender  : 19 / Female
+Train Number  : 105 City Express
+Route         : Chennai -> Salem
+Seat Number   : Waiting in Queue
+Fare          : Rs. 250.00
+Status        : WAITING
+========================================================
+
+TEST 5: CANCELLATION & AUTOMATED FIFO WAITING PROMOTION
+Cancelling PNR: 1002 (Priya Patel, Seat 2)
+========================================================
+              TICKET CANCELLED SUCCESSFULLY             
+========================================================
+PNR Number  : 1002
+Passenger   : Priya Patel
+Seat Freed  : 2
+Status      : CANCELLED
+========================================================
+
+>>> WAITING LIST PROMOTION (FIFO QUEUE) <<<
+A seat opened up! The next passenger in the waiting queue has been promoted:
+Promoted PNR   : 1004
+Passenger Name : Ananya Iyer
+Train Number   : 105
+Assigned Seat  : 2
+New Status     : CONFIRMED
+Remaining Wait : 0 passengers
+========================================================
+
+TEST 6: DISPLAY CONFIRMED RESERVATIONS
+------------------------------------------------------------------------------------
+PNR      PASSENGER NAME       TRAIN NO.  SEAT NO. FARE (Rs)    STATUS      
+------------------------------------------------------------------------------------
+1001     Rahul Sharma         105        1        250.00       CONFIRMED   
+1003     Amit Verma           105        3        250.00       CONFIRMED   
+1004     Ananya Iyer          105        2        250.00       CONFIRMED   
+------------------------------------------------------------------------------------
+Total Confirmed Passengers: 3
+
+TEST 7: BUBBLE SORT TRAINS BY FARE (ASCENDING)
+----------------------------------------------------------------------------------------
+TRAIN NO.  TRAIN NAME             SOURCE       DESTINATION    TOTAL    AVAILABLE  FARE(Rs)
+----------------------------------------------------------------------------------------
+105        City Express           Chennai      Salem          3        0          250.00  
+104        Southern Express       Chennai      Trichy         50       50         300.00  
+102        Coastal Express        Chennai      Coimbatore     40       40         350.00  
+103        Intercity Express      Chennai      Madurai        60       60         400.00  
+101        Chennai Express        Chennai      Bangalore      50       50         450.00  
+----------------------------------------------------------------------------------------
+
+TEST 8: SEARCH VALID TRAIN (105) & INVALID TRAIN (999)
+- Train 105 Found: Total Seats: 3, Booked Seats: 3, Available: 0
+- Train 999: "ERROR: Train 999 not found in the railway schedule."
+
+TEST 9: MEMORY DEALLOCATION (freeMemory)
+- Freeing passenger records linked list
+- Freeing train linked list and train waiting queues
+- Clean exit code 0
+========================================================================

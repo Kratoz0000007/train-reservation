@@ -1,0 +1,17 @@
+# Compiled binaries
+*.exe
+*.out
+*.o
+*.obj
+
+# Debug symbols & IDE files
+*.pdb
+*.ilk
+.vscode/
+.idea/
+*.dSYM/
+
+# Build artifacts & temp files
+build/
+bin/
+*.log
